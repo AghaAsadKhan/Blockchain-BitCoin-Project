@@ -1,3 +1,6 @@
+const sha256 = require('sha256');
+
+
 function Blockchain() {
     this.chain = [];
     this.penidingTransactions = [];
@@ -41,6 +44,15 @@ Blockchain.prototype.createNewTransaction = function(amount, sendr, recipient)
 
     return this.getLastBlock()['index'] + 1;
 }
+
+
+Blockchain.prototype.hashBlock = function(previousBlockHash, currentBlockData, nonce)
+{
+    const dataAsString = previousBlockHash + nonce.toString() + JSON.stringify(currentBlockData);
+    const hash = sha256(dataAsString);
+    return hash;
+}
+
 
 module.exports = Blockchain;
 
